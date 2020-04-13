@@ -65,15 +65,18 @@ MAKE SURE TO READ A NOTE AT THE END!!!
         type = HTTP
         httpHeader = GITHUB_USER
         httpExternalIdHeader = GITHUB_OAUTH_TOKEN
-        loginUrl = /login
+        loginUrl = /logout
         loginText = Sign-in with GitHub
-        registerPageUrl = "/#/register"
+        registerPageUrl = https://github.com/join
+        switchAccountUrl = https://accounts.google.com/
 [receive]
         enableSignedPush = true
 [sendemail]
+        enable = true
         smtpServer = smtp.gmail.com
         smtpServerPort = 587
         smtpEncryption = TLS
+        sslVerify = false
         smtpUser = himanshuakela@gmail.com
 [sshd]
         listenAddress = *:29418
@@ -86,16 +89,20 @@ MAKE SURE TO READ A NOTE AT THE END!!!
         url = https://github.com
         apiUrl = https://api.github.com
         clientId = e875b5ad8c2d2e105eaa
+        scopes = USER_EMAIL,REPO,READ_ORG
+        wizardFlow = account.gh => repositories.html
+        wizardFlow = repositories-next.gh => pullrequests.html
+        wizardFlow = pullrequests-next.gh R> / #/admin/projects/
 [lfs]
         plugin = lfs
 [lfs "?/*"]
         enabled = true
-        maxObjectSize = 200 M
-[avatar]
-        url = https://github.com/avatars/%s.jpg
-        changeUrl = https://github.com/account.html
+        maxObjectSize = 5 G
+[plugin "avatars-external"]
+        url = https://avatars0.githubusercontent.com/u/3890847?v=3&s=140&no_use=${user}
+        changeUrl = https://github.com/settings/profile
         sizeParameter = s=${size}x${size}
-
+        lowerCase = true
 
 
 
