@@ -119,3 +119,35 @@
 
 - sudo chown -R root:root {file_dir_path} [change ownership of files/dir] (root:root = groupname:username)
 - sudo passwd $username [change user password]
+
+
+
+ 
+##################################
+****domain configs****
+##################################
+- Point DNS Nameservers to the {machine_ip}. #cloudflare
+- Set firewall rule for port 8080 & 29418 in Gcloud (VPC Console). {http & ssh ports} 
+- Set hostname for the Gcloud server as the {host_server_name}. #cesiumos.me
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# refers to comment/examples
