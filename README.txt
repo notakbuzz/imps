@@ -1,11 +1,22 @@
 ` GERRIT SETUP FOR UBUNTU 16.04 LTS
 
+################################
+****packages required****
+###############################
+
+[*] sudo apt-get update && sudo apt-get upgrade && sudo apt-get install apache2 mysql-server openssh-server git-core openjdk-8-jdk gitweb git-review curl 
+[*] wget https://gerrit-releases.storage.googleapis.com/gerrit-3.1.4.war (https://gerrit-releases.storage.googleapis.com/index.html)
+[*] mkdir lib && mkdir plugins (https://gerrit-ci.gerritforge.com/) {github-oauth}
+[*] java -jar gerrit-3.1.4.war init
+[*] java -jar gerrit-3.1.4.war reindex -d {gerrit_path}
+[*] {gerrit_path}/bin/gerrit.sh start/restart/stop
+
 
 
 
 
 ###################################################
-/etc/apache/sites-availabe/000*.conf
+****/etc/apache/sites-availabe/000*.conf****
 ###################################################
 
 <VirtualHost *:80>
@@ -29,10 +40,8 @@
 
 
 
-
-
 #################################################
-gerrit.config
+****gerrit.config****
 ##################################################
 
 
@@ -87,15 +96,26 @@ gerrit.config
 
 
 #####################################
-Apache libs enable
+****Apache libs enable****
 #####################################
 
 [*] sudo a2enmod ssl
 [*] sudo a2enmod proxy
 [*] sudo a2enmod proxy_balancer
 [*] sudo a2enmod proxy_http
-[*] sudo service apache2 restart
 [*] sudo a2enmod ssl
 [*] sudo a2ensite default-ssl
 [*] sudo service apache2 reload
 [*] sudo service apache2 restart
+[*] sudo systemctl start apache2 {start/restart/status}
+[*] sudo systemctl enable apache2
+
+
+
+
+#############################
+****Extras****
+##############################
+
+- sudo chown -R root:root {file_dir_path} [change ownership of files/dir] (root:root = groupname:username)
+- sudo passwd $username [change user password]
