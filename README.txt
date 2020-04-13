@@ -97,6 +97,5 @@ Apache libs enable
 [*] sudo service apache2 restart
 [*] sudo a2enmod ssl
 [*] sudo a2ensite default-ssl
-[*] service apache2 reload
 [*] sudo service apache2 reload
 [*] sudo service apache2 restart
