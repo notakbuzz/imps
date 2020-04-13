@@ -1,4 +1,8 @@
-` GERRIT SETUP FOR UBUNTU 16.04 LTS
+                                              GERRIT SETUP FOR UBUNTU 16.04 LTS
+
+
+
+MAKE SURE TO READ A NOTE AT THE END!!!
 
 ################################
 ****packages required****
@@ -8,6 +12,7 @@
 [*] wget https://gerrit-releases.storage.googleapis.com/gerrit-3.1.4.war (https://gerrit-releases.storage.googleapis.com/index.html)
 [*] mkdir lib && mkdir plugins (https://gerrit-ci.gerritforge.com/) {github-oauth}
 [*] java -jar gerrit-3.1.4.war init
+[*] setup apache proxy & gerrit config
 [*] java -jar gerrit-3.1.4.war reindex -d {gerrit_path}
 [*] {gerrit_path}/bin/gerrit.sh start/restart/stop
 
@@ -145,9 +150,10 @@
 
 
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+MAKE SURE TO STOP GERRIT SERVICE BEFORE MAKING ANY CHANGES ELSE IT'D BREAK!!               ###NOTE###
 
-
-
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 # refers to comment/examples
