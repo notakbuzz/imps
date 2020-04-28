@@ -15,6 +15,9 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 [*] setup apache proxy & gerrit config
 [*] java -jar gerrit-3.1.4.war reindex -d {gerrit_path}
 [*] {gerrit_path}/bin/gerrit.sh start/restart/stop
+[*] modify the All-Projects Access {refer ss attached in the repos}
+[*] change branch HEAD for each repo
+[*] add webhookSecret in secret.config  {git password}
 
 
 
@@ -50,10 +53,10 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 ##################################################
 
 
-[gerrit]
+[[gerrit]
         basePath = git
         canonicalWebUrl = http://cesiumos.me/
-        serverId = 2ecb2013-1fd8-4f39-83b3-93ac8b7e074c
+        serverId = 52274ec1-6f59-4021-b988-0daa4507d3f1
 [container]
         javaOptions = "-Dflogger.backend_factory=com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance"
         javaOptions = "-Dflogger.logging_context=com.google.gerrit.server.logging.LoggingContext#getInstance"
@@ -67,8 +70,7 @@ MAKE SURE TO READ A NOTE AT THE END!!!
         httpExternalIdHeader = GITHUB_OAUTH_TOKEN
         loginUrl = /login
         loginText = Sign-in with GitHub
-        registerPageUrl = https://github.com/join
-        switchAccountUrl = https://accounts.google.com/
+        registerPageUrl = "/#/register"
 [receive]
         enableSignedPush = true
 [sendemail]
@@ -76,7 +78,6 @@ MAKE SURE TO READ A NOTE AT THE END!!!
         smtpServer = smtp.gmail.com
         smtpServerPort = 587
         smtpEncryption = TLS
-        sslVerify = true
         smtpUser = himanshuakela@gmail.com
 [sshd]
         listenAddress = *:29418
@@ -89,6 +90,7 @@ MAKE SURE TO READ A NOTE AT THE END!!!
         url = https://github.com
         apiUrl = https://api.github.com
         clientId = e875b5ad8c2d2e105eaa
+        webhookUser = BunsExynos
         scopes = USER_EMAIL,REPO,READ_ORG
         wizardFlow = account.gh => repositories.html
         wizardFlow = repositories-next.gh => pullrequests.html
@@ -99,10 +101,9 @@ MAKE SURE TO READ A NOTE AT THE END!!!
         enabled = true
         maxObjectSize = 5 G
 [plugin "avatars-external"]
-        url = https://avatars0.githubusercontent.com/u/3890847?v=3&s=140&no_use=${user}
-        changeUrl = https://github.com/settings/profile
-        sizeParameter = s=${size}x${size}
-        lowerCase = true
+        url = https://github.com/${user}.png
+[plugins]
+    allowRemoteAdmin = true
 
 
 
@@ -136,7 +137,7 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 
  
 ##################################
-****domain configs****
+****Domain Configs****
 ##################################
 - Point DNS Nameservers to the {machine_ip}. #cloudflare
 - Set firewall rule for port 8080 & 29418 in Gcloud (VPC Console). {http & ssh ports} 
@@ -146,9 +147,39 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 
 
 
+##############################
+****Plugins****
+###############################
 
-
-
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-account-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/account/account.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-admin-console-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/admin-console/admin-console.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-analytics-sbt-stable-3.1/lastSuccessfulBuild/artifact/target/scala-2.11/analytics.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-avatars-external-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/avatars-external/avatars-external.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-changemessage-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/changemessage/changemessage.jar
+$ weget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-events-log-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-log/events-log.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-events-log-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-log/events-log.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-go-import-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/go-import/go-import.jar 
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-healthcheck-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/healthcheck/healthcheck.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-its-base-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/its-base/its-base.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-lfs-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/lfs/lfs.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-log-level-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/log-level/log-level.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-login-redirect-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/login-redirect/login-redirect.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-messageoftheday-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/messageoftheday/messageoftheday.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-motd-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/motd/motd.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-multi-site-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/multi-site/multi-site.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-out-of-the-box-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/out-of-the-box/out-of-the-box.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-owners-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/owners/owners.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-owners-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/owners/owners-autoassign.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-pull-replication-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-quota-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/quota/quota.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-rate-limiter-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/rate-limiter/rate-limiter.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-rename-project-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/rename-project/rename-project.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-reviewers-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/reviewers/reviewers.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-secure-config-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/secure-config/secure-config.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-serviceuser-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/serviceuser/serviceuser.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-task-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/task/task.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-uploadvalidator-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/uploadvalidator/uploadvalidator.jar
+$ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-websession-broker-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/websession-broker/websession-broker.jar
 
 
 
