@@ -325,7 +325,91 @@ echo "Pushing to branch $BRANCH..."
 echo "****************************"
 echo ""
 
-# push each batch
+echo "******************************"
+echo "Git-LFS"
+echo "******************************"
+echo ">> Select 1 or 2"
+echo "******************************"
+echo "1) If trying the push for the first time."
+echo "2) If encountered any error in between while running this script, no worries. Just skip it."
+echo "*) Skip without installing git-lfs."
+echo "******************************"
+echo "Enter 1 or 2: "; read choice3
+echo "******************************"
+echo ""
+case $choice3 in
+1)
+# lfs
+echo "******************************"
+echo "Installing git-lfs..."
+echo "******************************"
+echo ""
+echo "******************************"
+git lfs install
+echo "******************************"
+echo ""
+echo "******************************"
+echo "Enter the file extension to be tracked by lfs."
+echo "*example: so or jar or bin"
+echo "******************************"
+echo ""
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
+echo "FILE_EXTENSION: "; read track
+echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+echo ""
+echo "******************************"
+echo "Tracking files with extension '.$track'!"
+echo "******************************"
+echo ""
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
+git lfs track "*.$track"
+echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+echo ""
+echo "******************************"
+echo "Git-lfs migrating the repo including '.$track' files..."
+echo ""
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
+git lfs migrate import --include="*.$track"
+echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+echo "******************************"
+echo ""
+echo "******************************"
+echo "Git adding files..."
+git add .gitattributes
+git add "*.$track"
+git add *
+echo "Adding files successfully completed!"
+echo "******************************"
+echo ""
+echo "******************************"
+echo "Amending & signing off the commit..."
+git commit --amend --signoff
+echo "******************************"
+echo ""
+echo "******************************"
+echo "Push git-lfs tracked files..."
+echo "******************************"
+echo ""
+echo "******************************"
+git push origin
+echo "******************************"
+echo ""
+;;
+2)
+echo "******************************"
+echo "Assuming you already tracked the files."
+echo "******************************"
+echo ""
+;;
+*)
+echo "******************************"
+echo "Okay sur! Not installing git-lfs..."
+echo "******************************"
+echo ""
+;;
+esac
+
+# push each batch;;
 for i in $(seq $count -2000 1); do
     # get the hash of the commit to push
     hash=$(git log --first-parent --reverse --oneline --format=format:%H --skip $i -n1)
