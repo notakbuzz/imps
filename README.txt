@@ -28,7 +28,7 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 ###################################################
 
 <VirtualHost *:80>
-  ServerName cesiumos.me
+  ServerName freakyos.xyz
   ProxyRequests Off
   ProxyVia Off
   ProxyPreserveHost On
@@ -40,8 +40,15 @@ MAKE SURE TO READ A NOTE AT THE END!!!
     # Require all granted
   </Proxy>
 
+  <Location https://github.com/>
+    AuthType Basic
+    AuthName "Git"
+    Require valid-user
+  </Location>
+
   AllowEncodedSlashes On
   ProxyPass / http://127.0.0.1:8080/ nocanon
+  ProxyPassReverse / http://127.0.0.1:8080/
 </VirtualHost>
 
 
@@ -53,10 +60,10 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 ##################################################
 
 
-[[gerrit]
+[gerrit]
         basePath = git
-        canonicalWebUrl = http://cesiumos.me/
-        serverId = 52274ec1-6f59-4021-b988-0daa4507d3f1
+        canonicalWebUrl = http://freakyos.xyz/
+        serverId = 52305d8f-5d5a-4b15-9a96-2f03c7c153c6
 [container]
         javaOptions = "-Dflogger.backend_factory=com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance"
         javaOptions = "-Dflogger.logging_context=com.google.gerrit.server.logging.LoggingContext#getInstance"
@@ -69,6 +76,7 @@ MAKE SURE TO READ A NOTE AT THE END!!!
         httpHeader = GITHUB_USER
         httpExternalIdHeader = GITHUB_OAUTH_TOKEN
         loginUrl = /login
+        logoutUrl = http://oauth.reset@freakyos.xyz/
         loginText = Sign-in with GitHub
         registerPageUrl = "/#/register"
 [receive]
@@ -82,15 +90,15 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 [sshd]
         listenAddress = *:29418
 [httpd]
-        listenUrl = http://*:8080/
+        listenUrl = proxy-http://*:8080/
         filterClass = com.googlesource.gerrit.plugins.github.oauth.OAuthFilter
 [cache]
         directory = cache
 [github]
         url = https://github.com
         apiUrl = https://api.github.com
-        clientId = e875b5ad8c2d2e105eaa
-        webhookUser = BunsExynos
+        clientId = c2b1cac0d2a9495975b7
+        webhookUser = bunnyyTheFreak
         scopes = USER_EMAIL,REPO,READ_ORG
         wizardFlow = account.gh => repositories.html
         wizardFlow = repositories-next.gh => pullrequests.html
@@ -99,12 +107,83 @@ MAKE SURE TO READ A NOTE AT THE END!!!
         plugin = lfs
 [lfs "?/*"]
         enabled = true
-        maxObjectSize = 5 G
+        maxObjectSize = 500 M
 [plugin "avatars-external"]
         url = https://github.com/${user}.png
 [plugins]
     allowRemoteAdmin = true
+[plugin "verify-status"]
+        dbType = h2
+        database = /home/himanshusinghal780/db/CiDB
 
+
+
+#####################################
+****secret.config**** //nibba copy and hack us!! >:D
+#####################################
+
+[auth]
+        registerEmailPrivateKey = ******
+[sendemail]
+        smtpPass = *****
+[github]
+        webhookSecret = *****
+        clientSecret = *****
+[remote "bunnyyTheFreak"]
+        username = bunnyyTheFreak
+        password = *******
+
+
+
+
+#####################################
+****replication.config**** //just for reference!!
+#####################################
+
+[remote "bunnyyTheFreak"]
+        url = https://github.com/${name}.git
+        projects = FreakyOS/packages_apps_MusicFX
+        projects = FreakyOS/packages_apps_Messaging
+        projects = FreakyOS/packages_apps_FMRadio
+        projects = FreakyOS/packages_apps_ExactCalculator
+        projects = FreakyOS/manifest
+        projects = FreakyOS/system_core
+        projects = FreakyOS/packages_apps_Contacts
+        projects = FreakyOS/vendor_freaky
+        projects = FreakyOS/frameworks_base
+        projects = FreakyOS/hardware_custom_interfaces
+        projects = FreakyOS/official_devices
+        projects = FreakyOS/system_netd
+        projects = FreakyOS/packages_apps_FreakyGraveyard
+        projects = FreakyOS/ota_config
+        projects = FreakyOS/device_custom_sepolicy
+        projects = FreakyOS/build_soong
+        projects = FreakyOS/external_airbnb-lottie
+        projects = FreakyOS/system_sepolicy
+        projects = FreakyOS/packages_apps_WallBucket
+        projects = FreakyOS/system_bt
+        projects = FreakyOS/packages_apps_Updater
+        projects = FreakyOS/build
+        projects = FreakyOS/frameworks_opt_telephony
+        projects = FreakyOS/hardware_qcom-caf_msm8952_media
+        projects = FreakyOS/hardware_qcom-caf_msm8952_display
+        projects = FreakyOS/hardware_qcom-caf_msm8952_audio
+        projects = FreakyOS/frameworks_native
+        projects = FreakyOS/packages_services_Telecomm
+        projects = FreakyOS/packages_apps_Snap
+        projects = FreakyOS/packages_apps_DeskClock
+        projects = FreakyOS/packages_apps_Dialer
+        projects = FreakyOS/frameworks_av
+        projects = FreakyOS/packages_services_Telephony
+        projects = FreakyOS/external_skia
+        projects = FreakyOS/packages_apps_Settings
+        projects = FreakyOS/FreakySite
+        projects = FreakyOS/packages_apps_OmniStyle
+        projects = FreakyOS/ota_config
+        projects = FreakyOS/packages_apps_OmniStyle
+        projects = FreakyOS/packages_apps_WallBucket
+        push = refs/*:refs/*
+        rescheduleDelay = 15
 
 
 
@@ -148,7 +227,7 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 
 
 ##############################
-****Plugins****
+****Plugins**** //completely upom the user which plugins to add!!
 ###############################
 
 $ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-account-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/account/account.jar
