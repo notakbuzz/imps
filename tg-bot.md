@@ -1,8 +1,7 @@
-
 😬 How to Deploy your UserBot to Heroku?
 
 YOU ABSOLUTELY MUST READ THE ENTIRE STEPS, AND NOT SKIM THROUGH ANY OF IT!
-
+```bash
 👉 Install this application from Google Play
 
 👉 Open Termux
@@ -27,10 +26,12 @@ YOU ABSOLUTELY MUST READ THE ENTIRE STEPS, AND NOT SKIM THROUGH ANY OF IT!
 
 👉 Follow the OnScreen prompts
 
+👉 https://GenerateStringSession.morgue.repl.run
+
 N.B.: Keep this string safe! Anyone with this string can use it to login into your account and do anything they want to to do.
+```
 
-Example: .e̶̶v̶̶a̶̶l̶̶ tob(̶̶f̶̶u̶̶n̶̶c̶̶t̶̶i̶̶o̶̶n̶̶s̶̶.a̶̶c̶̶c̶̶o̶̶u̶̶n̶̶t̶̶.D̶̶e̶̶l̶̶e̶̶t̶̶e̶̶A̶̶c̶̶c̶̶o̶̶u̶̶n̶̶t̶̶R̶̶e̶̶q̶̶u̶̶e̶̶s̶̶t̶̶(̶̶r̶̶e̶̶a̶̶s̶̶o̶̶n̶̶=̶̶"I̶̶ ♥️ Te̶̶l̶̶e̶̶g̶̶r̶̶a̶̶m̶̶")̶̶)̶̶
-
+```bash
 👉 Open this link
 
 👉 Follow the OnScreen prompts
@@ -46,11 +47,9 @@ Example: .e̶̶v̶̶a̶̶l̶̶ tob(̶̶f̶̶u̶̶n̶̶c̶̶t̶̶i̶̶o̶̶n̶̶s
 👉 Enable the worker dyno, by toggling the slide-toggle.
 
 👉 Done. Your UserBot is alive. Check with .help in any chat.
+```
 
-ℹ️ @Xtratgbot
-
-Thanks for @SpEcHiDe for writing this out
-
+```bash
 APP_ID : 1246043
 API_HASH : 4b1a32f9d2361dac527ebeda29c40b66
 ALIVE_NAME : @bun_nyy
@@ -63,3 +62,4 @@ PRIVATE_GROUP_BOT_API_ID : .get_id -1001490644363
 TG_BOT_TOKEN_BF_HER : 1243721790:AAFEvMUWrPAnqR6UmdSXLLIg8Urv3_oqM8M
 TG_BOT_USER_NAME_BF_HER : @StormPooperBot
 STRING_SESSION : generate string 
+```
