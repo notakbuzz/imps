@@ -2,12 +2,12 @@
 
 
 
-MAKE SURE TO READ A NOTE AT THE END!!!
+# MAKE SURE TO READ A NOTE AT THE END!!!
 
 ################################
 ****packages required****
 ###############################
-
+```bash
 [*] sudo apt-get update && sudo apt-get upgrade && sudo apt-get install apache2 mysql-server openssh-server git-core openjdk-8-jdk gitweb git-review curl 
 [*] wget https://gerrit-releases.storage.googleapis.com/gerrit-3.1.4.war (https://gerrit-releases.storage.googleapis.com/index.html)
 [*] mkdir lib && mkdir plugins (https://gerrit-ci.gerritforge.com/) {github-oauth}
@@ -18,15 +18,15 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 [*] modify the All-Projects Access {refer ss attached in the repos}
 [*] change branch HEAD for each repo
 [*] add webhookSecret in secret.config  {git password}
+```
 
 
 
 
-
-###################################################
+#############################
 ****/etc/apache/sites-availabe/000*.conf****
-###################################################
-
+################################
+```bash
 <VirtualHost *:80>
   ServerName freakyos.xyz
   ProxyRequests Off
@@ -50,7 +50,7 @@ MAKE SURE TO READ A NOTE AT THE END!!!
   ProxyPass / http://127.0.0.1:8080/ nocanon
   ProxyPassReverse / http://127.0.0.1:8080/
 </VirtualHost>
-
+```
 
 
 
@@ -59,7 +59,7 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 ****gerrit.config****
 ##################################################
 
-
+```bash
 [gerrit]
         basePath = git
         canonicalWebUrl = http://freakyos.xyz/
@@ -115,13 +115,14 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 [plugin "verify-status"]
         dbType = h2
         database = /home/himanshusinghal780/db/CiDB
-
+```
 
 
 #####################################
 ****secret.config**** //nibba copy and hack us!! >:D
 #####################################
 
+```bash
 [auth]
         registerEmailPrivateKey = ******
 [sendemail]
@@ -132,7 +133,7 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 [remote "bunnyyTheFreak"]
         username = bunnyyTheFreak
         password = *******
-
+```
 
 
 
@@ -140,6 +141,7 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 ****replication.config**** //just for reference!!
 #####################################
 
+```bash
 [remote "bunnyyTheFreak"]
         url = https://github.com/${name}.git
         projects = FreakyOS/packages_apps_MusicFX
@@ -184,13 +186,14 @@ MAKE SURE TO READ A NOTE AT THE END!!!
         projects = FreakyOS/packages_apps_WallBucket
         push = refs/*:refs/*
         rescheduleDelay = 15
-
+```
 
 
 #####################################
 ****Apache libs enable****
 #####################################
 
+```bash
 [*] sudo a2enmod ssl
 [*] sudo a2enmod proxy
 [*] sudo a2enmod proxy_balancer
@@ -201,7 +204,7 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 [*] sudo service apache2 restart
 [*] sudo systemctl start apache2 {start/restart/status}
 [*] sudo systemctl enable apache2
-
+```
 
 
 
@@ -209,19 +212,21 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 ****Extras****
 ##############################
 
+```bash
 - sudo chown -R root:root {file_dir_path} [change ownership of files/dir] (root:root = groupname:username)
 - sudo passwd $username [change user password]
-
+```
 
 
  
 ##################################
 ****Domain Configs****
 ##################################
+```bash
 - Point DNS Nameservers to the {machine_ip}. #cloudflare
 - Set firewall rule for port 8080 & 29418 in Gcloud (VPC Console). {http & ssh ports} 
 - Set hostname for the Gcloud server as the {host_server_name}. #cesiumos.me
-
+```
 
 
 
@@ -230,6 +235,7 @@ MAKE SURE TO READ A NOTE AT THE END!!!
 ****Plugins**** //completely upom the user which plugins to add!!
 ###############################
 
+```bash
 $ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-account-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/account/account.jar
 $ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-admin-console-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/admin-console/admin-console.jar
 $ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-analytics-sbt-stable-3.1/lastSuccessfulBuild/artifact/target/scala-2.11/analytics.jar
@@ -259,7 +265,7 @@ $ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-serv
 $ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-task-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/task/task.jar
 $ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-uploadvalidator-bazel-master-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/uploadvalidator/uploadvalidator.jar
 $ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-websession-broker-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/websession-broker/websession-broker.jar
-
+```
 
 
 
@@ -269,8 +275,8 @@ $ wget https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.1/job/plugin-webs
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-MAKE SURE TO STOP GERRIT SERVICE BEFORE MAKING ANY CHANGES ELSE IT'D BREAK!!               ###NOTE###
+# MAKE SURE TO STOP GERRIT SERVICE BEFORE MAKING ANY CHANGES ELSE IT'D BREAK!!               ###NOTE###
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-# refers to comment/examples
+# '#' refers to comment/examples
