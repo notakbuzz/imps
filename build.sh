@@ -86,18 +86,20 @@ function build_end() {
   # It's upload time!
    echo -e ${blu}"[*] Uploading the build & json..." ${txtrst}
       rsync -azP  -e ssh out/target/product/"$DEVICE"/FreakyOS*.zip bunnyy@frs.sourceforge.net:/home/frs/project/freakyos/"$DEVICE"/
-   echo -e ${blu}"[*] Cloning OTA CONFIF forpushing the changelog on the gerrit..." ${txtrst}
+   echo -e ${blu}"[*] Cloning OTA CONFIG for pushing the changelog on the gerrit..." ${txtrst}
    echo -e ${blu}"[*] Kindly edit the commit message on the gerrit!" ${txtrst}
-   cd $OUT
+   cd out/target/product/"$DEVICE"
    git clone "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/ota_config" && scp -p -P 29418 bunnyyTheFreak@freakyos.xyz:hooks/commit-msg "ota_config/.git/hooks/"
-   cp -f FreakyOS*-Changelog.zip.txt ota_config/"$DEVICE"/"$DEVICE.txt"
+   cp -f FreakyOS*-Changelog.txt ota_config/"$DEVICE"/"$DEVICE.txt"
    cd ota_config/
+   git add *
    git commit -m "$DEVICE: Push Build..!"
    git commit --amend --signoff -v -n
-   git push "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/ota_config HEAD:refs/for/still_alive"
+   git push "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/ota_config" "HEAD:refs/for/still_alive"
    echo -e ${blu}"[*] Removing private repos..." ${txtrst}
-   rm -rf packages/apps/WallBucket
+   sudo rm -rf packages/apps/WallBucket
    echo -e ${blu}"[*] Removed private repos!" ${txtrst}
+
 }
 
 exports
