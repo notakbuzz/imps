@@ -82,8 +82,9 @@ function build_main() {
 
 function build_end() {
   # It's upload time!
+   echo -e ${red} "\n[*] Removing existing cloned ota config directory if any! [*]" ${txtrst}
    sudo rm -rf -v out/target/product/"$DEVICE"/ota_config 
-   echo -e ${grn} "\n[*] Uploading the build!" ${txtrst}
+   echo -e ${grn} "\n[*] Uploading the build! [*]" ${txtrst}
    rsync -azP -v -e ssh out/target/product/"$DEVICE"/FreakyOS*.zip bunnyy@frs.sourceforge.net:/home/frs/project/freakyos/"$DEVICE"/
 #   gdrive upload out/target/product/"$DEVICE"/FreakyOS*.zip   
    echo -e ${blu} "\n[*] Cloning OTA CONFIG for pushing the new json and changelog to gerrit... [*]" ${txtrst}
