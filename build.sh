@@ -15,7 +15,7 @@ CCACHE="$3"
 CLEAN="$4"
 BUILD="$5"
 DATE="$(date)"
-JOBS="$(($(nproc --all)-2))"
+JOBS="$($(nproc --all))"
 
 # Colors makes things beautiful
 export TERM=xterm
@@ -31,7 +31,7 @@ function exports() {
 }
 
 function sync() {
-    # It's time to sync!
+   # It's time to sync!
    git config --global user.name "bunnyyTheFreak"
    git config --global user.email "hsinghalk@yahoo.com"
    echo -e ${blu} "[*] Syncing sources... This will take a while" ${txtrst}
