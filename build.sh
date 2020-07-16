@@ -119,6 +119,7 @@ use_ccache
 clean_up
 if [ "$PBUILD" = "true" ]; then
 build_main
+build_end
 elif [ "$PBUILD" = "false" ]; then
 build_end
 fi
