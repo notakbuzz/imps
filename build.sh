@@ -13,6 +13,8 @@ DEVICE="$1"
 SYNC="$2"
 CLEAN="$3"
 CCACHE="$4"
+DATE="$(date)"
+PBUILD="$5"
 JOBS="$(($(nproc --all)-2))"
 
 # Colors makes things beautiful
@@ -41,7 +43,7 @@ function sync() {
 
 function track_private() {
    echo -e ${blu} "[*] Fetching private repos..." ${txtrst}
-   rm -rf packages/apps/WallBucket
+   sudo rm -rf packages/apps/WallBucket
    git clone "git@github.com:FreakyOS/WallBucket.git" -b test packages/apps/WallBucket
    echo -e ${cya} "[*] Fetched private repos successfully!" ${txtrst}
 }
@@ -56,49 +58,45 @@ function use_ccache() {
    echo -e ${blu} "[*] Yumm! ccache enabled!" ${txtrst}
    elif [ "$CCACHE" = "false" ]; then
       export CCACHE_DIR=/var/lib/jenkins/workspace/jenkins-ccache
-      ccache -C
-   echo -e ${grn} "[*] Ugh! ccache cleaned!" ${txtrst}
+   echo -e ${grn} "[*] Ugh! ccache path exported!" ${txtrst}
    fi
 }
 
 function clean_up() {
   # It's Clean Time
    if [ "$CLEAN" = "true" ]; then
-   echo -e ${blu}"[*] Running clean job - full" ${txtrst}
+   echo -e ${blu} "[*] Running clean job - full" ${txtrst}
       make clean && make clobber
    echo -e ${grn}"[*] Clean job completed!" ${txtrst}
    elif [ "$CLEAN" = "false" ]; then
-   echo -e ${blu}"[*] Running clean job - install" ${txtrst}
-       make installclean
-   echo -e ${cya}"[*] make installclean completed!" ${txtrst}
-
+   echo -e ${blu} "[*] Nothing to clean!" ${txtrst}
     fi
 }
 
 function build_main() {
   # It's build time! YASS
    source build/envsetup.sh
-   echo -e ${blu}"[*] Starting the build..." ${txtrst}
+   echo -e ${blu} "[*] Starting the build..." ${txtrst}
    brunch ${DEVICE}
 }
 
 function build_end() {
   # It's upload time!
-   echo -e ${blu}"[*] Uploading the build & json..." ${txtrst}
+   echo -e ${blu} "[*] Uploading the build & json..." ${txtrst}
       rsync -azP  -e ssh out/target/product/"$DEVICE"/FreakyOS*.zip bunnyy@frs.sourceforge.net:/home/frs/project/freakyos/"$DEVICE"/
-   echo -e ${blu}"[*] Cloning OTA CONFIG for pushing the changelog on the gerrit..." ${txtrst}
-   echo -e ${blu}"[*] Kindly edit the commit message on the gerrit!" ${txtrst}
+#   gdrive upload out/target/product/"$DEVICE"/FreakyOS*.zip   
+   echo -e ${blu} "[*] Cloning OTA CONFIG for pushing the changelog on the gerrit..." ${txtrst}
+   echo -e ${blu} "[*] Kindly edit the commit message on the gerrit!" ${txtrst}
    cd out/target/product/"$DEVICE"
    git clone "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/ota_config" && scp -p -P 29418 bunnyyTheFreak@freakyos.xyz:hooks/commit-msg "ota_config/.git/hooks/"
    cp -f FreakyOS*-Changelog.txt ota_config/"$DEVICE"/"$DEVICE.txt"
    cd ota_config/
-   git add *
-   git commit -m "$DEVICE: Push Build..!"
+   git add --all; git commit -m "$DEVICE: Push $DATE Build!"
    git commit --amend --signoff -v -n
    git push "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/ota_config" "HEAD:refs/for/still_alive"
-   echo -e ${blu}"[*] Removing private repos..." ${txtrst}
+   echo -e ${blu} "[*] Removing private repos..." ${txtrst}
    sudo rm -rf packages/apps/WallBucket
-   echo -e ${blu}"[*] Removed private repos!" ${txtrst}
+   echo -e ${blu} "[*] Removed private repos!" ${txtrst}
 
 }
 
@@ -113,5 +111,8 @@ fi
 
 use_ccache
 clean_up
+if [ "$PBUILD" = "true" ]; then
 build_main
+elif [ "$PBUILD" = "false" ]; then
 build_end
+fi
