@@ -82,9 +82,10 @@ function build_main() {
 
 function build_end() {
   # It's upload time!
+   sudo rm -rf out/target/product/"$DEVICE"/ota_config 
    echo -e ${blu} "[*] Uploading the build & json..." ${txtrst}
-      rsync -azP  -e ssh out/target/product/"$DEVICE"/FreakyOS*.zip bunnyy@frs.sourceforge.net:/home/frs/project/freakyos/"$DEVICE"/
-#   gdrive upload out/target/product/"$DEVICE"/FreakyOS*.zip   
+#      rsync -azP  -e ssh out/target/product/"$DEVICE"/FreakyOS*.zip bunnyy@frs.sourceforge.net:/home/frs/project/freakyos/"$DEVICE"/
+   gdrive upload out/target/product/"$DEVICE"/FreakyOS*.zip   
    echo -e ${blu} "[*] Cloning OTA CONFIG for pushing the changelog on the gerrit..." ${txtrst}
    echo -e ${blu} "[*] Kindly edit the commit message on the gerrit!" ${txtrst}
    cd out/target/product/"$DEVICE"
