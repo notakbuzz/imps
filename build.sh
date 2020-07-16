@@ -35,7 +35,7 @@ function sync() {
    git config --global user.name "bunnyyTheFreak"
    git config --global user.email "hsinghalk@yahoo.com"
    echo -e ${blu} "[*] Syncing sources... This will take a while" ${txtrst}
-   rm -rf .repo/local_manifests
+   rm -rf -v .repo/local_manifests
    repo init --depth=1 -u git://github.com/FreakyOS/manifest.git -b still_alive
    repo sync -c -j"$JOBS" --no-tags --no-clone-bundle --force-sync
    echo -e ${cya} "[*] Syncing sources completed!" ${txtrst}
@@ -82,24 +82,27 @@ function build_main() {
 
 function build_end() {
   # It's upload time!
-   sudo rm -rf out/target/product/"$DEVICE"/ota_config 
-   echo -e ${blu} "[*] Uploading the build!" ${txtrst}
-   rsync -azP  -e ssh out/target/product/"$DEVICE"/FreakyOS*.zip bunnyy@frs.sourceforge.net:/home/frs/project/freakyos/"$DEVICE"/
+   sudo rm -rf -v out/target/product/"$DEVICE"/ota_config 
+   echo -e ${grn} "\n[*] Uploading the build!" ${txtrst}
+   rsync -azP -v -e ssh out/target/product/"$DEVICE"/FreakyOS*.zip bunnyy@frs.sourceforge.net:/home/frs/project/freakyos/"$DEVICE"/
 #   gdrive upload out/target/product/"$DEVICE"/FreakyOS*.zip   
-   echo -e ${blu} "[*] Cloning OTA CONFIG and OTA JSON for pushing the changelog on the gerrit..." ${txtrst}
-   echo -e ${blu} "[*] Kindly edit the commit message on the gerrit!" ${txtrst}
+   echo -e ${blu} "\n[*] Cloning OTA CONFIG for pushing the new json and changelog to gerrit... [*]" ${txtrst}
+   echo -e ${red} "[*] Kindly edit the commit message on the gerrit! [*]" ${txtrst}
    cd out/target/product/"$DEVICE"
    git clone "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/ota_config" && scp -p -P 29418 bunnyyTheFreak@freakyos.xyz:hooks/commit-msg "ota_config/.git/hooks/"
-   cp -f FreakyOS*-Changelog.txt ota_config/"$DEVICE"/"$DEVICE.txt"
-   cp -f FreakyOS*.zip.json ota_config/"$DEVICE"/"$DEVICE.json"
+   cp -v -f FreakyOS*-Changelog.txt ota_config/"$DEVICE"/"$DEVICE.txt"
+   cp -v -f FreakyOS*.zip.json ota_config/"$DEVICE"/"$DEVICE.json"
    cd ota_config/
-   git add --all; git commit -m "$DEVICE: Push $DATE Build!"
-   git commit --amend --signoff -v -n
+   echo -e ${grn} "\n[*] Copying Changelog & Json done! [*]" ${txtrst}
+   echo -e ${cya} "\n\n[*] Adding the changed files and committing to gerrit! [*]" ${txtrst}
+   git add -v --all
+   git commit -v -m "$DEVICE: Push $DATE Build!"
+   git commit --amend --signoff -v -n --dry-run
    git push "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/ota_config" "HEAD:refs/for/still_alive"
-   echo -e ${blu} "[*] Removing private repos..." ${txtrst}
-   sudo rm -rf packages/apps/WallBucket
-   echo -e ${blu} "[*] Removed private repos!" ${txtrst}
-
+   echo -e ${grn} "\n[*] Commit Pushed! [*]" ${txtrst}
+   echo -e ${red} "\n\n[*] Removing private repos... [*]" ${txtrst}
+   sudo rm -rf -v packages/apps/WallBucket
+   echo -e ${cya} "\n[*] Removed private repos! [*]" ${txtrst}
 }
 
 exports
@@ -115,7 +118,6 @@ use_ccache
 clean_up
 if [ "$PBUILD" = "true" ]; then
 build_main
-build_end
 elif [ "$PBUILD" = "false" ]; then
 build_end
 fi
