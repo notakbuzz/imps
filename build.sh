@@ -83,14 +83,15 @@ function build_main() {
 function build_end() {
   # It's upload time!
    sudo rm -rf out/target/product/"$DEVICE"/ota_config 
-   echo -e ${blu} "[*] Uploading the build & json..." ${txtrst}
+   echo -e ${blu} "[*] Uploading the build!" ${txtrst}
    rsync -azP  -e ssh out/target/product/"$DEVICE"/FreakyOS*.zip bunnyy@frs.sourceforge.net:/home/frs/project/freakyos/"$DEVICE"/
 #   gdrive upload out/target/product/"$DEVICE"/FreakyOS*.zip   
-   echo -e ${blu} "[*] Cloning OTA CONFIG for pushing the changelog on the gerrit..." ${txtrst}
+   echo -e ${blu} "[*] Cloning OTA CONFIG and OTA JSON for pushing the changelog on the gerrit..." ${txtrst}
    echo -e ${blu} "[*] Kindly edit the commit message on the gerrit!" ${txtrst}
    cd out/target/product/"$DEVICE"
    git clone "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/ota_config" && scp -p -P 29418 bunnyyTheFreak@freakyos.xyz:hooks/commit-msg "ota_config/.git/hooks/"
    cp -f FreakyOS*-Changelog.txt ota_config/"$DEVICE"/"$DEVICE.txt"
+   cp -f FreakyOS*.zip.json ota_config/"$DEVICE"/"$DEVICE.json"
    cd ota_config/
    git add --all; git commit -m "$DEVICE: Push $DATE Build!"
    git commit --amend --signoff -v -n
