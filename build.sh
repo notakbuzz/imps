@@ -11,10 +11,10 @@
 # Global variables
 DEVICE="$1"
 SYNC="$2"
-CLEAN="$3"
-CCACHE="$4"
+CCACHE="$3"
+CLEAN="$4"
+BUILD="$5"
 DATE="$(date)"
-PBUILD="$5"
 JOBS="$(($(nproc --all)-2))"
 
 # Colors makes things beautiful
@@ -50,27 +50,27 @@ function track_private() {
 
 function use_ccache() {
     # CCACHE UMMM!!! Cooks my builds fast
-   if [ "$CCACHE" = "true" ]; then
+if [ "$CCACHE" = "true" ]; then
       export CCACHE_DIR=/var/lib/jenkins/workspace/jenkins-ccache
       ccache -M 50G
       export CCACHE_EXEC=$(which ccache)
       export USE_CCACHE=1
-   echo -e ${blu} "[*] Yumm! ccache enabled!" ${txtrst}
-   elif [ "$CCACHE" = "false" ]; then
+      echo -e ${blu} "[*] Yumm! ccache enabled!" ${txtrst}
+elif [ "$CCACHE" = "false" ]; then
       export CCACHE_DIR=/var/lib/jenkins/workspace/jenkins-ccache
-   echo -e ${grn} "[*] Ugh! ccache path exported!" ${txtrst}
-   fi
+      echo -e ${grn} "[*] Ugh! ccache path exported!" ${txtrst}
+fi
 }
 
 function clean_up() {
   # It's Clean Time
-   if [ "$CLEAN" = "true" ]; then
+if [ "$CLEAN" = "true" ]; then
    echo -e ${blu} "[*] Running clean job - full" ${txtrst}
-      make clean && make clobber
+   make clean && make clobber
    echo -e ${grn}"[*] Clean job completed!" ${txtrst}
-   elif [ "$CLEAN" = "false" ]; then
+elif [ "$CLEAN" = "false" ]; then
    echo -e ${blu} "[*] Nothing to clean!" ${txtrst}
-    fi
+fi
 }
 
 function build_main() {
@@ -107,6 +107,7 @@ function build_end() {
 }
 
 exports
+
 if [ "$SYNC" = "true" ]; then
     sync
     track_private
@@ -114,12 +115,13 @@ elif [ "$SYNC" = "false" ]; then
     track_private
 fi
 
-
 use_ccache
+
 clean_up
-if [ "$PBUILD" = "true" ]; then
+
+if [ "$BUILD" = "true" ]; then
 build_main
 build_end
-elif [ "$PBUILD" = "false" ]; then
+elif [ "$BUILD" = "false" ]; then
 build_end
 fi
