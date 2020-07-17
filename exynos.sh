@@ -35,9 +35,8 @@ function sync() {
    git config --global user.name "bunnyyTheFreak"
    git config --global user.email "hsinghalk@yahoo.com"
    echo -e ${blu} "\n[*] Syncing sources... This will take a while [*]" ${txtrst}
-   rm -rf -v .repo/local_manifests
    repo init --depth=1 -u git://github.com/FreakyOS/manifest.git -b still_alive
-   repo sync -c -j"$JOBS" --no-tags --no-clone-bundle --force-sync
+   repo sync -c -j"$JOBS" --no-tags --no-clone-bundle --force-sync --force-broken
    echo -e ${grn} "\n[*] Syncing sources completed! [*]" ${txtrst}
 }
 
