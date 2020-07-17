@@ -71,9 +71,8 @@ if [ "$CLEAN" = "true" ]; then
    make clean && make clobber
    echo -e ${grn}"\n[*] Clean job completed! [*]" ${txtrst}
 elif [ "$CLEAN" = "false" ]; then
-   echo -e ${red} "\n\n[*] Cleaning existing builds to avoid Push conflicts! [*]" ${txtrst}
-   cd out/target/product/"$DEVICE"
-   rm -rf -v FreakyOS*.zip FreakyOS*-Changelog.txt FreakyOS*.zip.json
+   echo -e ${red} "\n\n[*] Cleaning existing builds to avoid Push conflicts! [*]" ${txtrst}s
+   rm -rf -v out/target/product/"$DEVICE"/FreakyOS*.zip out/target/product/"$DEVICE"/FreakyOS*-Changelog.txt out/target/product/"$DEVICE"/FreakyOS*.zip.json
 fi
 }
 
