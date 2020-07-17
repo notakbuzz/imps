@@ -15,7 +15,7 @@ CCACHE="$3"
 CLEAN="$4"
 BUILD="$5"
 DATE="$(date)"
-JOBS="$($(nproc --all))"
+JOBS="$(($(nproc --all)))"
 
 # Colors makes things beautiful
 export TERM=xterm
