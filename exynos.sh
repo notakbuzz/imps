@@ -71,8 +71,10 @@ if [ "$CLEAN" = "true" ]; then
    make clean && make clobber
    echo -e ${grn}"\n[*] Clean job completed! [*]" ${txtrst}
 elif [ "$CLEAN" = "false" ]; then
-   echo -e ${red} "\n\n[*] Cleaning existing builds to avoid Push conflicts! [*]" ${txtrst}s
+   echo -e ${red} "\n\n[*] Cleaning existing builds to avoid Push conflicts! [*]" ${txtrst}
    rm -rf -v out/target/product/"$DEVICE"/FreakyOS*.zip out/target/product/"$DEVICE"/FreakyOS*-Changelog.txt out/target/product/"$DEVICE"/FreakyOS*.zip.json
+else
+   echo -e ${red} "\n\n[*] Invalid Option! [*]" ${txtrst}
 fi
 }
 
@@ -116,6 +118,8 @@ if [ "$SYNC" = "true" ]; then
     track_private
 elif [ "$SYNC" = "false" ]; then
     track_private
+else
+    echo -e ${red} "\n[*] Nothing to do ! [*]" ${txtrst}
 fi
 
 use_ccache
@@ -127,4 +131,7 @@ build_main
 build_end
 elif [ "$BUILD" = "false" ]; then
 build_end
+else
+echo -e ${grn} "\n[*] Just Building! [*]" ${txtrst}
+build_main
 fi
