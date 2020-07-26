@@ -60,6 +60,8 @@ if [ "$CCACHE" = "true" ]; then
 elif [ "$CCACHE" = "false" ]; then
       export CCACHE_DIR=/var/lib/jenkins/workspace/jenkins-ccache
       echo -e ${cya} "\n\n[*] Ugh! ccache path exported! [*]" ${txtrst}
+else
+      echo -e ${red} "\n\n[*] Invalid Option! [*]" ${txtrst}
 fi
 }
 
@@ -73,6 +75,8 @@ elif [ "$CLEAN" = "false" ]; then
    echo -e ${red} "\n\n[*] Cleaning existing builds to avoid Push conflicts! [*]" ${txtrst}
    cd out/target/product/"$DEVICE"
    rm -rf -v FreakyOS*.zip FreakyOS*-Changelog.txt FreakyOS*.zip.json
+else
+      echo -e ${red} "\n\n[*] Invalid Option! [*]" ${txtrst}
 fi
 }
 
