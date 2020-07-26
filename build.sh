@@ -37,7 +37,7 @@ function sync() {
    echo -e ${blu} "\n[*] Syncing sources... This will take a while [*]" ${txtrst}
    rm -rf -v .repo/local_manifests
    repo init --depth=1 -u git://github.com/FreakyOS/manifest.git -b still_alive
-   repo sync -c -j"$JOBS" --no-tags --no-clone-bundle --force-sync
+   repo sync -c -j"$JOBS" --no-tags --no-clone-bundle --force-sync --force-broken
    echo -e ${grn} "\n[*] Syncing sources completed! [*]" ${txtrst}
 }
 
@@ -71,7 +71,8 @@ if [ "$CLEAN" = "true" ]; then
    echo -e ${grn}"\n[*] Clean job completed! [*]" ${txtrst}
 elif [ "$CLEAN" = "false" ]; then
    echo -e ${red} "\n\n[*] Cleaning existing builds to avoid Push conflicts! [*]" ${txtrst}
-   rm -rf -v out/target/product/"$DEVICE"/FreakyOS*.zip out/target/product/"$DEVICE"/FreakyOS*-Changelog.txt out/target/product/"$DEVICE"/FreakyOS*.zip.json
+   cd out/target/product/"$DEVICE"
+   rm -rf -v FreakyOS*.zip FreakyOS*-Changelog.txt FreakyOS*.zip.json
 fi
 }
 
@@ -115,6 +116,8 @@ if [ "$SYNC" = "true" ]; then
     track_private
 elif [ "$SYNC" = "false" ]; then
     track_private
+else
+    echo -e ${red} "\n[*] Nothing to do ! [*]" ${txtrst}
 fi
 
 use_ccache
@@ -126,4 +129,7 @@ build_main
 build_end
 elif [ "$BUILD" = "false" ]; then
 build_end
+else
+echo -e ${grn} "\n[*] Just Building! [*]" ${txtrst}
+build_main
 fi
