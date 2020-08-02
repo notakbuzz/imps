@@ -35,6 +35,7 @@ function sync() {
    git config --global user.name "bunnyyTheFreak"
    git config --global user.email "hsinghalk@yahoo.com"
    echo -e ${blu} "\n[*] Syncing sources... This will take a while [*]" ${txtrst}
+   rm -rf -v .repo/local_manifests
    repo init --depth=1 -u git://github.com/FreakyOS/manifest.git -b still_alive
    repo sync -c -j"$JOBS" --no-tags --no-clone-bundle --force-sync --force-broken
    echo -e ${grn} "\n[*] Syncing sources completed! [*]" ${txtrst}
@@ -48,7 +49,6 @@ function track_private() {
    sudo rm -rf -v packages/apps/Graveyard
    sudo rm -rf -v packages/apps/Settings
    git clone "git@github.com:FreakyOS/WallBucket.git" packages/apps/WallBucket
-   git clone "git@github.com:FreakyOS/vendor_google-customization.git" -b arm vendor/google-customization
    git clone "git@github.com:FreakyOS/packages_apps_Graveyard.git" packages/apps/Graveyard
    git clone "git@github.com:FreakyOS/packages_apps_Settings_Graveyard.git" packages/apps/Settings
    echo -e ${grn} "\n[*] Fetched private repos successfully! [*]" ${txtrst}
@@ -79,9 +79,10 @@ if [ "$CLEAN" = "true" ]; then
    echo -e ${grn}"\n[*] Clean job completed! [*]" ${txtrst}
 elif [ "$CLEAN" = "false" ]; then
    echo -e ${red} "\n\n[*] Cleaning existing builds to avoid Push conflicts! [*]" ${txtrst}
-   sudo rm -rf -v out/target/product/"$DEVICE"/FreakyOS*.zip out/target/product/"$DEVICE"/FreakyOS*-Changelog.txt out/target/product/"$DEVICE"/FreakyOS*.zip.json
+   cd out/target/product/"$DEVICE"
+   rm -rf -v FreakyOS*.zip FreakyOS*-Changelog.txt FreakyOS*.zip.json
 else
-   echo -e ${red} "\n\n[*] Nothing to do! [*]" ${txtrst}
+      echo -e ${red} "\n\n[*] Nothing to do! [*]" ${txtrst}
 fi
 }
 
@@ -95,7 +96,7 @@ function build_main() {
 function build_end() {
   # It's upload time!
    echo -e ${red} "\n\n[*] Removing existing cloned ota config directory if any! [*]" ${txtrst}
-   sudo rm -rf -v out/target/product/"$DEVICE"/ota_config 
+   rm -rf -v out/target/product/"$DEVICE"/ota_config 
    echo -e ${grn} "\n[*] Uploading the build! [*]" ${txtrst}
    rsync -azP -v -e ssh out/target/product/"$DEVICE"/FreakyOS*.zip bunnyy@frs.sourceforge.net:/home/frs/project/freakyos/"$DEVICE"/
 #   gdrive upload out/target/product/"$DEVICE"/FreakyOS*.zip   
@@ -115,7 +116,6 @@ function build_end() {
    echo -e ${grn} "\n[*] Commit Pushed! [*]" ${txtrst}
    echo -e ${red} "\n\n[*] Removing private repos... [*]" ${txtrst}
    sudo rm -rf -v packages/apps/WallBucket
-   sudo rm -rf -v vendor/google-customization
    sudo rm -rf -v packages/apps/FreakyGraveyard
    sudo rm -rf -v packages/apps/Graveyard
    sudo rm -rf -v packages/apps/Settings
