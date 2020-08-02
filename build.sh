@@ -35,7 +35,7 @@ function sync() {
    git config --global user.name "bunnyyTheFreak"
    git config --global user.email "hsinghalk@yahoo.com"
    echo -e ${blu} "\n[*] Syncing sources... This will take a while [*]" ${txtrst}
-   rm -rf -v .repo/local_manifests
+   sudo rm -rf -v .repo/local_manifests
    repo init --depth=1 -u git://github.com/FreakyOS/manifest.git -b still_alive
    repo sync -c -j"$JOBS" --no-tags --no-clone-bundle --force-sync --force-broken
    echo -e ${grn} "\n[*] Syncing sources completed! [*]" ${txtrst}
@@ -44,12 +44,11 @@ function sync() {
 function track_private() {
    echo -e ${blu} "\n\n[*] Fetching private repos... [*]" ${txtrst}
    sudo rm -rf -v packages/apps/WallBucket
-   sudo rm -rf -v vendor/google-customization
    sudo rm -rf -v packages/apps/FreakyGraveyard
    sudo rm -rf -v packages/apps/Graveyard
    sudo rm -rf -v packages/apps/Settings
    git clone "git@github.com:FreakyOS/WallBucket.git" packages/apps/WallBucket
-   git clone "git@github.com:FreakyOS/packages_apps_Graveyard.git" packages/apps/Graveyard
+   git clone "git@github.com:FreakyOS/packages_apps_Graveyard.git" -b test2 packages/apps/Graveyard
    git clone "git@github.com:FreakyOS/packages_apps_Settings_Graveyard.git" packages/apps/Settings
    echo -e ${grn} "\n[*] Fetched private repos successfully! [*]" ${txtrst}
 }
@@ -80,9 +79,9 @@ if [ "$CLEAN" = "true" ]; then
 elif [ "$CLEAN" = "false" ]; then
    echo -e ${red} "\n\n[*] Cleaning existing builds to avoid Push conflicts! [*]" ${txtrst}
    cd out/target/product/"$DEVICE"
-   rm -rf -v FreakyOS*.zip FreakyOS*-Changelog.txt FreakyOS*.zip.json
+   sudo rm -rf -v FreakyOS*.zip FreakyOS*-Changelog.txt FreakyOS*.zip.json
 else
-      echo -e ${red} "\n\n[*] Nothing to do! [*]" ${txtrst}
+   echo -e ${red} "\n\n[*] Nothing to do! [*]" ${txtrst}
 fi
 }
 
@@ -90,13 +89,13 @@ function build_main() {
   # It's build time! YASS
    source build/envsetup.sh
    echo -e ${cya} "\n\n[*] Starting the build... [*]" ${txtrst}
-   brunch ${DEVICE}
+   brunch freaky_${DEVICE}-eng
 }
 
 function build_end() {
   # It's upload time!
    echo -e ${red} "\n\n[*] Removing existing cloned ota config directory if any! [*]" ${txtrst}
-   rm -rf -v out/target/product/"$DEVICE"/ota_config 
+   sudo rm -rf -v out/target/product/"$DEVICE"/ota_config 
    echo -e ${grn} "\n[*] Uploading the build! [*]" ${txtrst}
    rsync -azP -v -e ssh out/target/product/"$DEVICE"/FreakyOS*.zip bunnyy@frs.sourceforge.net:/home/frs/project/freakyos/"$DEVICE"/
 #   gdrive upload out/target/product/"$DEVICE"/FreakyOS*.zip   
