@@ -44,8 +44,12 @@ function track_private() {
    echo -e ${blu} "\n\n[*] Fetching private repos... [*]" ${txtrst}
    rm -rf -v packages/apps/WallBucket
    rm -rf -v vendor/google-customization
-   git clone "git@github.com:FreakyOS/WallBucket.git" -b test packages/apps/WallBucket
-   git clone "git@github.com:FreakyOS/vendor_google-customization.git" -b arm vendor/google-customization
+   rm -rf -v packages/apps/FreakyGraveyard
+   rm -rf -v packages/apps/Settings
+   git clone -v "git@github.com:FreakyOS/WallBucket.git" packages/apps/WallBucket
+   git clone -v "git@github.com:FreakyOS/vendor_google-customization.git" -b arm vendor/google-customization
+   git clone -v "git@github.com:FreakyOS/packages_apps_Graveyard.git" packages/apps/Graveyard
+   git clone -v "git@github.com:FreakyOS/packages_apps_Settings_Graveyard.git" packages/apps/Settings
    echo -e ${grn} "\n[*] Fetched private repos successfully! [*]" ${txtrst}
 }
 
@@ -61,6 +65,8 @@ if [ "$CCACHE" = "true" ]; then
 elif [ "$CCACHE" = "false" ]; then
       export CCACHE_DIR=/var/lib/jenkins/workspace/jenkins-ccache
       echo -e ${cya} "\n\n[*] Ugh! ccache path exported! [*]" ${txtrst}
+else
+      echo -e ${red} "\n\n[*] Nothing to do! [*]" ${txtrst}
 fi
 }
 
@@ -74,7 +80,7 @@ elif [ "$CLEAN" = "false" ]; then
    echo -e ${red} "\n\n[*] Cleaning existing builds to avoid Push conflicts! [*]" ${txtrst}
    rm -rf -v out/target/product/"$DEVICE"/FreakyOS*.zip out/target/product/"$DEVICE"/FreakyOS*-Changelog.txt out/target/product/"$DEVICE"/FreakyOS*.zip.json
 else
-   echo -e ${red} "\n\n[*] Invalid Option! [*]" ${txtrst}
+   echo -e ${red} "\n\n[*] Nothing to do! [*]" ${txtrst}
 fi
 }
 
@@ -88,7 +94,7 @@ function build_main() {
 function build_end() {
   # It's upload time!
    echo -e ${red} "\n\n[*] Removing existing cloned ota config directory if any! [*]" ${txtrst}
-   sudo rm -rf -v out/target/product/"$DEVICE"/ota_config 
+   rm -rf -v out/target/product/"$DEVICE"/ota_config 
    echo -e ${grn} "\n[*] Uploading the build! [*]" ${txtrst}
    rsync -azP -v -e ssh out/target/product/"$DEVICE"/FreakyOS*.zip bunnyy@frs.sourceforge.net:/home/frs/project/freakyos/"$DEVICE"/
 #   gdrive upload out/target/product/"$DEVICE"/FreakyOS*.zip   
@@ -107,7 +113,10 @@ function build_end() {
    git push "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/ota_config" "HEAD:refs/for/still_alive"
    echo -e ${grn} "\n[*] Commit Pushed! [*]" ${txtrst}
    echo -e ${red} "\n\n[*] Removing private repos... [*]" ${txtrst}
-   sudo rm -rf -v packages/apps/WallBucket
+   rm -rf -v packages/apps/WallBucket
+   rm -rf -v vendor/google-customization
+   rm -rf -v packages/apps/Graveyard
+   rm -rf -v packages/apps/Settings
    echo -e ${cya} "\n[*] Removed private repos! [*]" ${txtrst}
 }
 
@@ -131,7 +140,9 @@ build_main
 build_end
 elif [ "$BUILD" = "false" ]; then
 build_end
-else
+elif [ "$BUILD" = "skip" ]; then
 echo -e ${grn} "\n[*] Just Building! [*]" ${txtrst}
 build_main
+else
+echo -e ${red} "\n[*] Nothing to do! [*]" ${txtrst}
 fi
