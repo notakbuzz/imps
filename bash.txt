@@ -1,0 +1,226 @@
+    1  sudo apt update
+    2  sudo apt-get install --assume-yes wget
+    3  sudp apt upgrade
+    4  sudo apt upgrade
+    5  wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
+    6  sudo dpkg --install chrome-remote-desktop_current_amd64.deb
+    7  sudo apt install --assume-yes --fix-broken
+    8  sudo apt-get install gnome-core
+    9  sudo systemctl disable lightdm.service
+   10  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+   11  sudo dpkg --install google-chrome-stable_current_amd64.deb
+   12  sudo apt install --assume-yes --fix-broken
+   13  sudo usermod -a -G chrome-remote-desktop $USER
+   14  logout
+   15  DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/3wFpGUGA33b3ZILUfjfGxflCCuewYbOLG0F7Yq0U92dQ3TTcgEvOxcR4TD6KUiTdWqfKvxh6fnFZa-u-0gSsZew" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname)
+   16  sudo apt-get update && sudo apt-get install bc git-core gnupg flex bison gperf libsdl1.2-dev libesd0-dev libwxgtk3.0-dev squashfs-tools build-essential zip curl libncurses5-dev zlib1g-dev openjdk-8-jre openjdk-8-jdk pngcrush schedtool libxml2 libxml2-utils xsltproc lzop libc6-dev schedtool g++-multilib lib32z1-dev lib32ncurses5-dev lib32readline6-dev gcc-multilib maven tmux screen w3m ncftp adb fastboot repo python default-jdk
+   17  DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/3wFpGUGA33b3ZILUfjfGxflCCuewYbOLG0F7Yq0U92dQ3TTcgEvOxcR4TD6KUiTdWqfKvxh6fnFZa-u-0gSsZew" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname)
+   18  sudo passwd himanshusinghal0995 
+   19  sudo passwd root 
+   20  sudo passwd ubuntu 
+   21  sudo snap install telegram-desktop 
+   22  sudo /etc/sudoers
+   23  sudo su 
+   24  ssh-keygen 
+   25  sudo gvfs-open /var/lib/jenkins/
+   26  sudo snap install telegram-desktop
+   27  sudo add-apt-repository ppa:numix/ppa
+   28  sudo apt-get update
+   29  sudo apt-get install numix-gtk-theme
+   30  nano build.sh
+   31  gedit build.sh
+   32  nano build.sh
+   33  sudo apt install gnome*
+   34  sudo /etc/sudoers
+   35  sudo nano /etc/su
+   36  sudo nano /etc/sudoers
+   37  sudo apt install apache
+   38  sudo apt install apache2
+   39  sudo nano /etc/apache2/sites-available/000-default.conf 
+   40  wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+   41  sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+   42  sudo apt update
+   43  sudo rm -rf /etc/apt/sources.list.d/jenkins.list 
+   44  sudo apt update
+   45  sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+   46  sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+   47  sudo apt update
+   48  sudo rm -rf /etc/apt/sources.list.d/jenkins.list 
+   49  wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+   50  sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+   51  sudo apt update
+   52  sudo apt install jenkins
+   53  mkdir ~/bin
+   54  PATH=~/bin:$PATH
+   55  curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+   56  chmod a+x ~/bin/repo
+   57  cd /var/lib/jenkins/
+   58  sudo su -l jenkins 
+   59  git config --global user.name "bunnyyTheFreak"
+   60  git config --global user.email "hsinghalk@yahoo.com"
+   61  sudo su -l jenkins 
+   62  sudo a2enmod proxy
+   63  sudo a2enmod proxy_http
+   64  sudo service apache2 restart
+   65  sudo systemctl start jenkins
+   66  sudo a2ensite jenkins
+   67  sudo systemctl restart apache2
+   68  systemctl restart jenkins
+   69  sudo systemctl restart jenkins
+   70  cat ~/.ssh/id_rsa.pub 
+   71  ls
+   72  cd ..
+   73  sudo rm -rf jenkins/
+   74  git clone git@github.com:FreakyOS/jenkins_backup.git jenkins
+   75  sudo git clone git@github.com:FreakyOS/jenkins_backup.git jenkins
+   76  sudo su
+   77  sudo git clone git@github.com:FreakyOS/jenkins_backup.git jenkins
+   78  su -l jenkins 
+   79  sudo su -l jenkins 
+   80  sudo service enable apache2
+   81  sudo service apache2 enable
+   82  sudo a2enmod proxy
+   83  sudo a2enmod proxy_http
+   84  sudo service apache2 reload
+   85  sudo service apache2 start
+   86  sudo rm -rf jenkins/
+   87  sudo apt install jenkins
+   88  sudo apt remove jenkins
+   89  sudo apt install jenkins
+   90  sudo apt update
+   91  sudo apt upgrade
+   92  sudp apt autoremove
+   93  sudo apt autoremove
+   94  sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+   95  sudo systemctl stop jenkins.service 
+   96  sudo rm -rf jenkins/
+   97  sudo git clone git@github.com:FreakyOS/jenkins_backup.git jenkins
+   98  sudo systemctl start jenkins.service 
+   99  sudo systemctl stop jenkins.service 
+  100  cd jenkins/
+  101  sudo mkdir builds
+  102  sudo systemctl start jenkins.service 
+  103  ll
+  104  ls
+  105  sudo systemctl stop jenkins.service 
+  106  cd builds/
+  107  cd ..
+  108  rm -rf builds/
+  109  sudo rm -rf builds/
+  110  sudo mkdir -R builds
+  111  sudo mkdir -r builds
+  112  sudo mkdir builds
+  113  sudo systemctl restart apache2 jenkins.service 
+  114  sudo chown -R jenkins:jenkins .
+  115  sudo systemctl restart apache2 jenkins.service 
+  116  cat ~/.ssh/id_rsa.pub 
+  117  sudo su
+  118  sudo su -l jenkins 
+  119  sudo git clone git@github.com:bunnyyTheFreak/bunnyyTheFreak.git
+  120  rm -rf bunnyyTheFreak/
+  121  sudo rm -rf bunnyyTheFreak/
+  122  sudo apt install gnome*
+  123  sudo reboot 
+  124  sudo apt install gnome*
+  125  sudo dpkg --configure -a
+  126  sudo apt install gnome*
+  127  sudo reboot 
+  128  sudo gvfs-open /var/lib/jenkins/workspace/
+  129  gedit backup.sh
+  130  gedit build.sh
+  131  gedit push.sh
+  132  cd ..
+  133  cd ex
+  134  cd Exynos7580/
+  135  bash build.sh 
+  136  bash build.sh a5xelte true true true true
+  137  repo init --depth=1 -u git://github.com/FreakyOS/manifest.git -b still_alive
+  138  sudo cp /var/lib/jenkins/workspace/Exynos7580/.repo/repo/repo /usr/bin/repo
+  139  repo init --depth=1 -u git://github.com/FreakyOS/manifest.git -b still_alive
+  140  cd ..
+  141  cd FreakyOS
+  142  repo init --depth=1 -u git://github.com/FreakyOS/manifest.git -b still_alive
+  143  cd ..
+  144  cat ~/.ssh/id_rsa.pub 
+  145  su
+  146  gedit push.sh
+  147  rsync -azP -v -e ssh build.sh  bunnyy@frs.sourceforge.net:/home/frs/project/freakyos/a5xelte/
+  148  su -l jenkins 
+  149  su 
+  150  chown -R jenkins:jenkins .
+  151  cd ..
+  152  chown -R jenkins:jenkins .
+  153  sudo apt update
+  154  sudo apt upgrade
+  155  sudo apt autoremove 
+  156  sudo usermod -aG sudo bunnyy
+  157  sudo usermod -aG sudo himanshusinghal0995 
+  158  sudo usermod -aG sudo jenkins 
+  159  sudo update-alternatives --config x-cursor-theme
+  160  x-cursor-theme
+  161  sudo apt install --reinstall xcursor-themes
+  162  sudo update-alternatives --config x-cursor-theme
+  163  sudo apt-get install -y dmz-cursor-theme
+  164  gsettings get org.gnome.desktop.interface cursor-size
+  165  gsettings set org.gnome.desktop.lockdown disable-lock-screen false
+  166  sudo snap install telegram-desktop
+  167  sudo gvfs-open /var/lib/jenkins/workspace/
+  168  reboot 
+  169  sudo reboot 
+  170  sudo gvfs-open /var/lib/jenkins/workspace/
+  171  git@github.com:FreakyOS/packages_apps_Settings_Graveyard.git
+  172  git clone git@github.com:FreakyOS/packages_apps_Settings_Graveyard.git
+  173  cd packages_apps_Settings_Graveyard/
+  174  git fetch https://github.com/FreakyOS/packages_apps_Settings && git cherry-pick 4ce9489959099d2daf5aa977676b05898a275fc1..e01383cc94290bda6a802e80ef35e1d7b97beaf0
+  175  git status
+  176  git reset --hard
+  177  git cherry-pick 4ce9489959099d2daf5aa977676b05898a275fc1
+  178  git cherry-pick cb7cd5bff591d62f5c92f9dbb1fd4f31bc8caa3d
+  179  git cherry-pick 69ebee34854cd3516d914f1a2940f9c4a6a0debc
+  180  git cherry-0a1bac73fa50e736dfc57a515cbd6ee7bd7bdc6f
+  181  git cherry-pick 0a1bac73fa50e736dfc57a515cbd6ee7bd7bdc6f
+  182  git cherry-pick 507477c1bca060d611885ad56e9be955fe898a81
+  183  git cherry-pick 77756664cbd0ad1d46d891b7bb39e8fdbee2d183
+  184  git cherry-pick e01383cc94290bda6a802e80ef35e1d7b97beaf0
+  185  git push
+  186  cd frameworks/base/
+  187  git fetch "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/frameworks_base" refs/changes/70/170/1 && git checkout -b change-170-1 FETCH_HEAD
+  188  cd ..
+  189  cd packages/apps/Graveyard/
+  190  git fetch "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/packages_apps_FreakyGraveyard" refs/changes/65/165/1 && git cherry-pick FETCH_HEAD
+  191  git status
+  192  git diff res/values/st
+  193  git diff res/values/strings.xml
+  194  git status
+  195  git rm deleted by us:   res/xml/freaky_graveyard_statusbar.xml
+  196  git rm res/xml/freaky_graveyard_statusbar.xml
+  197  git add *
+  198  git cherry-pick --continue 
+  199  git fetch "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/packages_apps_FreakyGraveyard" refs/changes/67/167/1 && git cherry-pick FETCH_HEAD
+  200  git status
+  201  git rm res/xml/freaky_graveyard_statusbar.xml
+  202  git status
+  203  git add *
+  204  git cherry-pick --continue 
+  205  git fetch "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/packages_apps_FreakyGraveyard" refs/changes/71/171/1 && git cherry-pick FETCH_HEAD
+  206  git fetch "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/packages_apps_FreakyGraveyard" refs/changes/72/172/1 && git cherry-pick FETCH_HEAD
+  207  cd ..
+  208  cd Settings
+  209  git fetch "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/packages_apps_Settings" refs/changes/37/137/5 && git cherry-pick FETCH_HEAD
+  210  cd ..
+  211  cd external/motorola/faceunlock/
+  212  git fetch "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/external_motorola_faceunlock" refs/changes/81/181/1 && git cherry-pick FETCH_HEAD
+  213  git clone git@github.com:FreakyOS/external_motorola_faceunlock.git
+  214  cd external_motorola_faceunlock/
+  215  git fetch "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/external_motorola_faceunlock" refs/changes/62/162/1 && git cherry-pick FETCH_HEAD
+  216  git push ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/external_motorola_faceunlock HEAD:refs/for/still_alive
+  217  sudo poweroff 
+  218  sudo apt install ccache
+  219  git@github.com:FreakyOS/packages_apps_Settings_Graveyard.git
+  220  sudo gvfs-open /var/lib/jenkins/workspace/
+  221  sudo poweroff 
+  222  sudo gvfs-open /var/lib/jenkins/workspace/
+  223  sudo reboot 
+  224  sudo gvfs-open /var/lib/jenkins/workspace/
+  225  git log
+  226  history > bash.txt
