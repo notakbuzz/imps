@@ -47,9 +47,8 @@ function track_private() {
    sudo rm -rf -v packages/apps/FreakyGraveyard
    sudo rm -rf -v packages/apps/Graveyard
    sudo rm -rf -v packages/apps/Settings
-   git clone "git@github.com:FreakyOS/WallBucket.git" packages/apps/WallBucket
-   git clone "git@github.com:FreakyOS/packages_apps_Graveyard.git" -b test2 packages/apps/Graveyard
-   git clone "git@github.com:FreakyOS/packages_apps_Settings_Graveyard.git" packages/apps/Settings
+   git clone --depth=1 "git@github.com:FreakyOS/packages_apps_Graveyard.git" packages/apps/Graveyard
+   git clone --depth=1 "git@github.com:FreakyOS/packages_apps_Settings_Graveyard.git" packages/apps/Settings
    echo -e ${grn} "\n[*] Fetched private repos successfully! [*]" ${txtrst}
 }
 
