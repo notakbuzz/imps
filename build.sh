@@ -18,6 +18,9 @@ WORKSPACE="$6"
 DATE="$(date)"
 JOBS="$(($(nproc --all)))"
 
+# enable extended glob for subshell
+shopt -s extglob
+
 # Colors makes things beautiful
 export TERM=xterm
 red=$(tput setaf 1)             #  red
@@ -147,7 +150,6 @@ build_main
 else
 echo -e ${red} "\n[*] Nothing to do! [*]" ${txtrst}
 fi
-
 
 if [ "$WORKSPACE" = "true" ]; then
 rm -rf !(build.sh|push.sh)
