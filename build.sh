@@ -153,6 +153,7 @@ fi
 
 if [ "$WORKSPACE" = "true" ]; then
 rm -rf !(build.sh|push.sh)
+echo -e ${grn} "\n[*] Workspace Cleaned! Please resync the manifest again! [*]" ${txtrst}
 elif [ "$WORKSPACE" = "false" ]; then
 echo -e ${red} "\n[*] Nothing to do! [*]" ${txtrst}
 fi
