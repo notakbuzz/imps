@@ -152,7 +152,9 @@ echo -e ${red} "\n[*] Nothing to do! [*]" ${txtrst}
 fi
 
 if [ "$WORKSPACE" = "true" ]; then
+echo -e ${blu} "\n[*] Starting Workspace Cleanup! Including the local manifest dir fetched for the device! [*]" ${txtrst}
 rm -rf !(build.sh|push.sh)
+rm -rf -v .repo/local_manifests
 echo -e ${grn} "\n[*] Workspace Cleaned! Please resync the manifest again! [*]" ${txtrst}
 elif [ "$WORKSPACE" = "false" ]; then
 echo -e ${red} "\n[*] Nothing to do! [*]" ${txtrst}
