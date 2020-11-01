@@ -14,6 +14,7 @@ SYNC="$2"
 CCACHE="$3"
 CLEAN="$4"
 BUILD="$5"
+WORKSPACE="$6"
 DATE="$(date)"
 JOBS="$(($(nproc --all)))"
 
@@ -144,5 +145,12 @@ elif [ "$BUILD" = "skip" ]; then
 echo -e ${grn} "\n[*] Just Building! [*]" ${txtrst}
 build_main
 else
+echo -e ${red} "\n[*] Nothing to do! [*]" ${txtrst}
+fi
+
+
+if [ "$WORKSPACE" = "true" ]; then
+rm -rf !(build.sh|push.sh)
+elif [ "$WORKSPACE" = "false" ]; then
 echo -e ${red} "\n[*] Nothing to do! [*]" ${txtrst}
 fi
