@@ -18,6 +18,8 @@
 [*] modify the All-Projects Access {refer ss attached in the repos}
 [*] change branch HEAD for each repo
 [*] add webhookSecret in secret.config  {git password}
+
+[*] open port in vpc [gmail~in-out] 25, 465, 587, [in] 8080, 29418
 ```
 
 
