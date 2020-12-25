@@ -14,8 +14,12 @@ SYNC="$2"
 CCACHE="$3"
 CLEAN="$4"
 BUILD="$5"
+WORKSPACE="$6"
 DATE="$(date)"
 JOBS="$(($(nproc --all)))"
+
+# enable extended glob for subshell
+shopt -s extglob
 
 # Colors makes things beautiful
 export TERM=xterm
@@ -36,22 +40,19 @@ function sync() {
    git config --global user.email "hsinghalk@yahoo.com"
    echo -e ${blu} "\n[*] Syncing sources... This will take a while [*]" ${txtrst}
    sudo rm -rf -v .repo/local_manifests
-   repo init --depth=1 -u git://github.com/FreakyOS/manifest.git -b still_alive
+   PATH=~/bin:$PATH
+   repo init -u git://github.com/FreakyOS/manifest.git -b never_dead
    repo sync -c -j"$JOBS" --no-tags --no-clone-bundle --force-sync --force-broken
    echo -e ${grn} "\n[*] Syncing sources completed! [*]" ${txtrst}
 }
 
 function track_private() {
    echo -e ${blu} "\n\n[*] Fetching private repos... [*]" ${txtrst}
-   sudo rm -rf -v packages/apps/WallBucket
-   sudo rm -rf -v vendor/google-customization
    sudo rm -rf -v packages/apps/FreakyGraveyard
    sudo rm -rf -v packages/apps/Graveyard
    sudo rm -rf -v packages/apps/Settings
-   git clone "git@github.com:FreakyOS/WallBucket.git" packages/apps/WallBucket
-   git clone "git@github.com:FreakyOS/vendor_google-customization.git" -b arm vendor/google-customization
-   git clone "git@github.com:FreakyOS/packages_apps_Graveyard.git" packages/apps/Graveyard
-   git clone "git@github.com:FreakyOS/packages_apps_Settings_Graveyard.git" packages/apps/Settings
+   git clone -v "git@github.com:FreakyOS/packages_apps_Graveyard.git" packages/apps/Graveyard
+   git clone -v "git@github.com:FreakyOS/packages_apps_Settings_Graveyard.git" packages/apps/Settings
    echo -e ${grn} "\n[*] Fetched private repos successfully! [*]" ${txtrst}
 }
 
@@ -59,13 +60,13 @@ function use_ccache() {
     # CCACHE UMMM!!! Cooks my builds fast
 if [ "$CCACHE" = "true" ]; then
       echo -e ${blu} "\n\n[*] Enabling cache... [*]" ${txtrst}
-      export CCACHE_DIR=/var/lib/jenkins/workspace/jenkins-ccache
+      export CCACHE_DIR=/var/lib/jenkins/workspace/jenkins-arm-ccache
       ccache -M 50G
       export CCACHE_EXEC=$(which ccache)
       export USE_CCACHE=1
       echo -e ${grn} "\n[*] Yumm! ccache enabled! [*]" ${txtrst}
 elif [ "$CCACHE" = "false" ]; then
-      export CCACHE_DIR=/var/lib/jenkins/workspace/jenkins-ccache
+      export CCACHE_DIR=/var/lib/jenkins/workspace/jenkins-arm-ccache
       echo -e ${cya} "\n\n[*] Ugh! ccache path exported! [*]" ${txtrst}
 else
       echo -e ${red} "\n\n[*] Nothing to do! [*]" ${txtrst}
@@ -80,7 +81,8 @@ if [ "$CLEAN" = "true" ]; then
    echo -e ${grn}"\n[*] Clean job completed! [*]" ${txtrst}
 elif [ "$CLEAN" = "false" ]; then
    echo -e ${red} "\n\n[*] Cleaning existing builds to avoid Push conflicts! [*]" ${txtrst}
-   sudo rm -rf -v out/target/product/"$DEVICE"/FreakyOS*.zip out/target/product/"$DEVICE"/FreakyOS*-Changelog.txt out/target/product/"$DEVICE"/FreakyOS*.zip.json
+   cd out/target/product/"$DEVICE"
+   sudo rm -rf -v FreakyOS*.zip FreakyOS*-Changelog.txt FreakyOS*.zip.json
 else
    echo -e ${red} "\n\n[*] Nothing to do! [*]" ${txtrst}
 fi
@@ -115,8 +117,7 @@ function build_end() {
    git push "ssh://bunnyyTheFreak@freakyos.xyz:29418/FreakyOS/ota_config" "HEAD:refs/for/still_alive"
    echo -e ${grn} "\n[*] Commit Pushed! [*]" ${txtrst}
    echo -e ${red} "\n\n[*] Removing private repos... [*]" ${txtrst}
-   sudo rm -rf -v packages/apps/WallBucket
-   sudo rm -rf -v vendor/google-customization
+
    sudo rm -rf -v packages/apps/FreakyGraveyard
    sudo rm -rf -v packages/apps/Graveyard
    sudo rm -rf -v packages/apps/Settings
@@ -126,10 +127,15 @@ function build_end() {
 exports
 
 if [ "$SYNC" = "true" ]; then
+echo -e ${grn} "\n[*] Syncing Sources & Private Repos! [*]" ${txtrst}
     sync
     track_private
 elif [ "$SYNC" = "false" ]; then
+echo -e ${grn} "\n[*] Just Syncing Private Repos! [*]" ${txtrst}
     track_private
+elif [ "$SYNC" = "skip" ]; then
+echo -e ${grn} "\n[*] Just Syncing Sources! [*]" ${txtrst}
+    sync
 else
     echo -e ${red} "\n[*] Nothing to do ! [*]" ${txtrst}
 fi
@@ -147,5 +153,14 @@ elif [ "$BUILD" = "skip" ]; then
 echo -e ${grn} "\n[*] Just Building! [*]" ${txtrst}
 build_main
 else
+echo -e ${red} "\n[*] Nothing to do! [*]" ${txtrst}
+fi
+
+if [ "$WORKSPACE" = "true" ]; then
+echo -e ${blu} "\n[*] Starting Workspace Cleanup! Including the local manifest dir fetched for the device! [*]" ${txtrst}
+rm -rf !(build.sh|push.sh)
+rm -rf -v .repo/local_manifests
+echo -e ${grn} "\n[*] Workspace Cleaned! Please resync the manifest again! [*]" ${txtrst}
+elif [ "$WORKSPACE" = "false" ]; then
 echo -e ${red} "\n[*] Nothing to do! [*]" ${txtrst}
 fi
