@@ -40,7 +40,8 @@ function sync() {
    git config --global user.email "hsinghalk@yahoo.com"
    echo -e ${blu} "\n[*] Syncing sources... This will take a while [*]" ${txtrst}
    sudo rm -rf -v .repo/local_manifests
-   repo init --depth=1 -u git://github.com/FreakyOS/manifest.git -b still_alive
+   PATH=~/bin:$PATH
+   repo init -u git://github.com/FreakyOS/manifest.git -b never_dead
    repo sync -c -j"$JOBS" --no-tags --no-clone-bundle --force-sync --force-broken
    echo -e ${grn} "\n[*] Syncing sources completed! [*]" ${txtrst}
 }
@@ -51,8 +52,8 @@ function track_private() {
    sudo rm -rf -v packages/apps/FreakyGraveyard
    sudo rm -rf -v packages/apps/Graveyard
    sudo rm -rf -v packages/apps/Settings
-   git clone --depth=1 "git@github.com:FreakyOS/packages_apps_Graveyard.git" packages/apps/Graveyard
-   git clone --depth=1 "git@github.com:FreakyOS/packages_apps_Settings_Graveyard.git" packages/apps/Settings
+   git clone -v "git@github.com:FreakyOS/packages_apps_Graveyard.git" packages/apps/Graveyard
+   git clone -v "git@github.com:FreakyOS/packages_apps_Settings_Graveyard.git" packages/apps/Settings
    echo -e ${grn} "\n[*] Fetched private repos successfully! [*]" ${txtrst}
 }
 
@@ -61,7 +62,7 @@ function use_ccache() {
 if [ "$CCACHE" = "true" ]; then
       echo -e ${blu} "\n\n[*] Enabling cache... [*]" ${txtrst}
       export CCACHE_DIR=/var/lib/jenkins/workspace/jenkins-ccache
-      ccache -M 50G
+      ccache -M 100G
       export CCACHE_EXEC=$(which ccache)
       export USE_CCACHE=1
       echo -e ${grn} "\n[*] Yumm! ccache enabled! [*]" ${txtrst}
@@ -127,10 +128,15 @@ function build_end() {
 exports
 
 if [ "$SYNC" = "true" ]; then
+echo -e ${grn} "\n[*] Syncing Sources & Private Repos! [*]" ${txtrst}
     sync
     track_private
 elif [ "$SYNC" = "false" ]; then
+echo -e ${grn} "\n[*] Just Syncing Private Repos! [*]" ${txtrst}
     track_private
+elif [ "$SYNC" = "skip" ]; then
+echo -e ${grn} "\n[*] Just Syncing Sources! [*]" ${txtrst}
+    sync
 else
     echo -e ${red} "\n[*] Nothing to do ! [*]" ${txtrst}
 fi
