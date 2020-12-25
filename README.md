@@ -208,18 +208,6 @@
 [*] sudo systemctl enable apache2
 ```
 
-
-
-#############################
-****Extras****
-##############################
-
-```bash
-- sudo chown -R root:root {file_dir_path} [change ownership of files/dir] (root:root = groupname:username)
-- sudo passwd $username [change user password]
-```
-
-
  
 ##################################
 ****Domain Configs****
